@@ -8,11 +8,19 @@ import { sendSuccess, sendError } from '../../../utils/response.util';
 
 const router = Router();
 
-// Directory for uploaded media
-const UPLOADS_DIR = path.resolve(__dirname, '../../../../uploads');
-if (!fs.existsSync(UPLOADS_DIR)) {
-  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-}
+// Helper to get safe upload directory (uses /tmp on serverless environments like Vercel)
+const getUploadsDir = (): string => {
+  const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+  const dir = isServerless ? '/tmp/uploads' : path.resolve(__dirname, '../../../../uploads');
+  try {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  } catch (e) {
+    // Ignore filesystem creation errors on read-only environments
+  }
+  return dir;
+};
 
 /**
  * Admin: Upload image via Base64 payload
@@ -51,9 +59,14 @@ router.post(
         return sendError(res, 'حجم الصورة كبير جداً. الحد الأقصى 5 ميجابايت.', 400, 'FILE_TOO_LARGE');
       }
 
-      const targetDir = path.join(UPLOADS_DIR, folder);
-      if (!fs.existsSync(targetDir)) {
-        fs.mkdirSync(targetDir, { recursive: true });
+      const uploadsBase = getUploadsDir();
+      const targetDir = path.join(uploadsBase, folder);
+      try {
+        if (!fs.existsSync(targetDir)) {
+          fs.mkdirSync(targetDir, { recursive: true });
+        }
+      } catch (e) {
+        // Safe directory creation
       }
 
       const safeFilename = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
