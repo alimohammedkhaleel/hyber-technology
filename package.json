@@ -1,0 +1,36 @@
+{
+  "name": "nlp-super-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Enterprise Multi-Service Ordering Platform (Food, Grocery, Products, Bookings, Delivery, Health) - Production Architecture",
+  "scripts": {
+    "dev": "concurrently --kill-others-on-fail \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "build": "npm --prefix server run build && npm --prefix client run build",
+    "build:client": "npm --prefix client run build",
+    "build:server": "npm --prefix server run build",
+    "typecheck": "npm --prefix server run typecheck && npm --prefix client run typecheck",
+    "migrate": "npm --prefix server run migrate",
+    "seed": "npm --prefix server run seed",
+    "install:all": "npm install && npm --prefix server install && npm --prefix client install"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.2"
+  },
+  "keywords": [
+    "multi-service",
+    "super-app",
+    "ordering-platform",
+    "postgresql",
+    "neon",
+    "express",
+    "react",
+    "typescript"
+  ],
+  "author": "NLP SuperApp Engineering Team",
+  "license": "UNLICENSED"
+}

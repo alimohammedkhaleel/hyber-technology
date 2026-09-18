@@ -1,0 +1,186 @@
+.address-modal-box {
+  max-width: 520px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.unauth-address-prompt {
+  padding: 24px;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+/* Label Presets */
+.label-presets-row {
+  display: flex;
+  gap: 8px;
+}
+
+.label-preset-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.label-preset-btn:hover,
+.label-preset-btn.active {
+  color: var(--color-gold);
+  border-color: var(--color-gold);
+  background-color: var(--color-gold-light);
+}
+
+/* Country Selector Pills */
+.country-selector-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.country-pill-btn {
+  padding: 6px 14px;
+  background-color: #f8fafc;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-secondary, #475569);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.country-pill-btn:hover {
+  border-color: var(--color-gold, #c9a227);
+  background-color: #fffdf7;
+}
+
+.country-pill-btn.active {
+  background-color: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+/* Form Layouts */
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-row-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.default-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-top: 8px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.form-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.address-form-error {
+  padding: 10px 14px;
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+/* Saved List */
+.saved-addresses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.address-card-item {
+  padding: 14px 16px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.address-card-item:hover {
+  border-color: var(--color-border-hover);
+  background-color: #ffffff;
+}
+
+.address-card-item.selected {
+  border-color: var(--color-gold);
+  background-color: #fffdf5;
+  box-shadow: 0 2px 8px rgba(201, 162, 39, 0.15);
+}
+
+.address-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.address-label-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.default-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  background-color: var(--color-gold-light);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.address-full-text {
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.address-sub-details,
+.address-notes-preview {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.no-addresses-state {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--color-text-muted);
+}
+
+.add-new-address-btn {
+  width: 100%;
+  margin-top: 8px;
+}

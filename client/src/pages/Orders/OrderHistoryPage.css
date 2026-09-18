@@ -1,0 +1,222 @@
+/* Order History & Tracking Page Styles */
+
+.hts-orders-history-page,
+.hts-order-tracking-page {
+  min-height: 100vh;
+  background-color: var(--color-background, #f8fafc);
+  padding: 30px 0 80px;
+  direction: rtl;
+  font-family: var(--font-ar, 'Cairo', sans-serif);
+}
+
+.orders-page-header {
+  margin-bottom: 28px;
+}
+
+.orders-page-header h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-text, #0f172a);
+  margin: 8px 0 0;
+}
+
+.orders-page-header p {
+  color: var(--color-text-muted, #64748b);
+  margin: 6px 0 0;
+  font-size: 0.95rem;
+}
+
+.orders-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hts-order-card {
+  background: #ffffff;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 16px;
+  padding: 20px 24px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.hts-order-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(201, 162, 39, 0.4);
+  box-shadow: 0 8px 24px rgba(201, 162, 39, 0.08);
+}
+
+.order-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 14px;
+}
+
+.order-num-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-text, #0f172a);
+}
+
+.order-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.badge-pending {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.badge-verification {
+  background: rgba(201, 162, 39, 0.15);
+  color: #92400e;
+}
+
+.badge-confirmed {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-processing {
+  background: #f3e8ff;
+  color: #6b21a8;
+}
+
+.badge-ready,
+.badge-delivered {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge-delivery {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.badge-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.order-card-middle {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.order-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.order-detail-info .label {
+  font-size: 0.76rem;
+  color: var(--color-text-muted, #64748b);
+  font-weight: 600;
+}
+
+.order-detail-info span {
+  font-size: 0.88rem;
+  color: var(--color-text, #0f172a);
+}
+
+.payment-mini-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.payment-mini-badge.paid {
+  color: #10b981;
+}
+
+.payment-mini-badge.pending {
+  color: var(--color-gold-dark, #a38016);
+}
+
+.order-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.order-total-price {
+  font-size: 0.95rem;
+  color: var(--color-text-muted, #64748b);
+}
+
+.order-total-price strong {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-text, #0f172a);
+  font-family: var(--font-en, 'Inter', sans-serif);
+}
+
+.empty-orders-box {
+  background: #ffffff;
+  border: 1px dashed var(--color-border, #e2e8f0);
+  border-radius: 18px;
+  padding: 60px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+@media (max-width: 768px) {
+  .hts-orders-history-page {
+    padding: 16px 0 60px;
+  }
+
+  .orders-page-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .hts-order-card {
+    padding: 16px;
+  }
+
+  .order-card-top {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .order-card-middle {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .order-card-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .order-track-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}

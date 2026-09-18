@@ -1,0 +1,96 @@
+/* Product Image & Fallback Container */
+.product-image-wrapper,
+.product-image-fallback-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #0d1117;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-wide {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-tall {
+  aspect-ratio: 3 / 4;
+}
+
+.product-real-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.product-real-img.hidden {
+  opacity: 0;
+  position: absolute;
+}
+
+.product-real-img.visible {
+  opacity: 1;
+}
+
+.product-img-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #161b22 0%, #21262d 50%, #161b22 100%);
+  background-size: 200% 100%;
+  animation: imgSkeletonShimmer 1.5s infinite;
+}
+
+@keyframes imgSkeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Fallback Tech UI */
+.product-image-fallback-container {
+  background: radial-gradient(circle at center, #161f2e 0%, #0a0e17 100%);
+  border: 1px solid rgba(201, 162, 39, 0.15);
+}
+
+.fallback-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.fallback-icon-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: rgba(201, 162, 39, 0.08);
+  border: 1px solid rgba(201, 162, 39, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gold, #c9a227);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.product-fallback-icon {
+  stroke-width: 1.6;
+}
+
+.fallback-badge-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  background-color: rgba(255, 255, 255, 0.04);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}

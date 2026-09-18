@@ -1,0 +1,24 @@
+{
+  "short_name": "هايبر تكنولوجي",
+  "name": "متجر هايبر تكنولوجي | Hyper Technology Store",
+  "description": "المتجر المتخصص في الشاشات، كاميرات المراقبة، التجهيزات الإلكترونية والشبكات - تحت إشراف باش مهندس أحمد السيد",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0a0e17",
+  "theme_color": "#d4af37",
+  "display": "standalone",
+  "orientation": "portrait",
+  "dir": "rtl",
+  "lang": "ar"
+}

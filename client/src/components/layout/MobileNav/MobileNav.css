@@ -1,0 +1,113 @@
+/* ============================================================
+   Mobile Bottom Navigation Bar – Hyper Technology Store
+   Fully responsive, RTL-first, safe-area aware
+   ============================================================ */
+
+.mobile-nav-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* Respect device safe-area (iPhone notch / home indicator) */
+  height: calc(64px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background-color: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--color-border, #e5e5e5);
+  box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.07);
+  z-index: 990;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 4px;
+  padding-right: 4px;
+  direction: rtl;
+}
+
+/* Show only on mobile */
+@media (max-width: 768px) {
+  .mobile-nav-bar {
+    display: flex;
+  }
+}
+
+/* Each tab button */
+.mobile-nav-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  gap: 3px;
+  color: #888888;
+  font-size: 0.68rem;
+  font-weight: 600;
+  font-family: var(--font-arabic, 'Cairo', sans-serif);
+  cursor: pointer;
+  padding: 6px 4px;
+  border-radius: 10px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  flex: 1;
+  min-width: 0;
+  /* Prevent text wrapping on very small screens */
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Active / hover state */
+.mobile-nav-tab:hover,
+.mobile-nav-tab.active {
+  color: var(--color-gold, #c9a227);
+  background-color: rgba(201, 162, 39, 0.06);
+}
+
+.mobile-nav-tab.active svg {
+  transform: scale(1.12);
+}
+
+/* Cart icon wrapper (for badge positioning) */
+.mobile-nav-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+/* Cart count badge */
+.mobile-nav-badge {
+  position: absolute;
+  top: -7px;
+  left: -9px;
+  background: var(--color-gold, #c9a227);
+  color: #000000;
+  font-size: 0.6rem;
+  font-weight: 800;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  border: 2px solid #ffffff;
+  font-family: var(--font-latin, 'Inter', sans-serif);
+  line-height: 1;
+}
+
+/* Extra-small screens (≤ 360px) — shrink text */
+@media (max-width: 360px) {
+  .mobile-nav-tab {
+    font-size: 0.6rem;
+    padding: 6px 2px;
+    gap: 2px;
+  }
+
+  .mobile-nav-tab svg {
+    width: 18px;
+    height: 18px;
+  }
+}

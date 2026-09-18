@@ -1,0 +1,242 @@
+.hero-carousel-wrapper {
+  width: 100%;
+  max-width: 1280px;
+  margin: 16px auto 32px auto;
+  padding: 0 16px;
+}
+
+.hero-carousel-container {
+  position: relative;
+  width: 100%;
+  min-height: 380px;
+  height: 440px;
+  border-radius: var(--radius-lg, 14px);
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  background-color: #0c0c0e;
+}
+
+.hero-carousel-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.carousel-image-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.carousel-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.carousel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(12, 12, 14, 0.95) 0%,
+    rgba(12, 12, 14, 0.75) 45%,
+    rgba(12, 12, 14, 0.25) 100%
+  );
+  z-index: 2;
+}
+
+[dir="ltr"] .carousel-overlay {
+  background: linear-gradient(
+    270deg,
+    rgba(12, 12, 14, 0.95) 0%,
+    rgba(12, 12, 14, 0.75) 45%,
+    rgba(12, 12, 14, 0.25) 100%
+  );
+}
+
+.carousel-content-box {
+  position: relative;
+  z-index: 5;
+  max-width: 620px;
+  padding: 0 48px;
+  color: #ffffff;
+}
+
+.carousel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background-color: rgba(201, 162, 39, 0.15);
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  border-radius: 9999px;
+  color: #c9a227;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.carousel-title {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.carousel-subtitle {
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  line-height: 1.6;
+  color: #d1d1d6;
+  margin-bottom: 24px;
+}
+
+.btn-carousel-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #c9a227 0%, #b8911e 100%);
+  color: #ffffff;
+  padding: 12px 28px;
+  border-radius: var(--radius-md, 10px);
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(201, 162, 39, 0.4);
+  transition: all 200ms ease;
+}
+
+.btn-carousel-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201, 162, 39, 0.55);
+}
+
+.carousel-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.carousel-nav-btn:hover {
+  background-color: #c9a227;
+  color: #ffffff;
+  border-color: #c9a227;
+}
+
+.btn-prev {
+  right: 18px;
+}
+
+.btn-next {
+  left: 18px;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: all 250ms ease;
+}
+
+.carousel-dot.active {
+  width: 28px;
+  background-color: #c9a227;
+}
+
+@media (max-width: 768px) {
+  .hero-carousel-wrapper {
+    margin: 8px auto 16px;
+    padding: 0 10px;
+  }
+
+  .hero-carousel-container {
+    height: 280px;
+    min-height: 240px;
+    border-radius: 12px;
+  }
+
+  .carousel-content-box {
+    padding: 0 16px;
+  }
+
+  .carousel-nav-btn {
+    display: none;
+  }
+
+  .carousel-badge {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    margin-bottom: 8px;
+  }
+
+  .carousel-title {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+
+  .carousel-subtitle {
+    display: none;
+  }
+
+  .btn-carousel-cta {
+    padding: 8px 16px;
+    font-size: 0.84rem;
+    border-radius: 8px;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero-carousel-container {
+    height: 230px;
+    min-height: 190px;
+  }
+
+  .carousel-title {
+    font-size: 1.2rem;
+  }
+
+  .carousel-content-box {
+    padding: 0 12px;
+  }
+
+  .btn-carousel-cta {
+    padding: 7px 14px;
+    font-size: 0.8rem;
+  }
+}
+
+

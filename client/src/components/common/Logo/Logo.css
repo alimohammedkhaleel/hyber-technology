@@ -1,0 +1,51 @@
+.app-logo-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  user-select: none;
+}
+
+.app-logo-img {
+  object-fit: contain;
+  transition: transform var(--transition-fast);
+}
+
+.app-logo-wrapper:hover .app-logo-img {
+  transform: scale(1.04);
+}
+
+.logo-sm .app-logo-img {
+  width: 32px;
+  height: 32px;
+}
+
+.logo-md .app-logo-img {
+  width: 44px;
+  height: 44px;
+}
+
+.logo-lg .app-logo-img {
+  width: 64px;
+  height: 64px;
+}
+
+.app-logo-text-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-logo-title {
+  font-family: var(--font-arabic);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.app-logo-subtitle {
+  font-size: 0.725rem;
+  color: var(--color-gold);
+  font-weight: 600;
+}
