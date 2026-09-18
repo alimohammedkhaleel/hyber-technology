@@ -37,8 +37,10 @@ const createApp = (): Express => {
     });
   });
 
-  // Versioned API v1 Router
+  // Versioned API v1 Router (supports both direct and rewritten paths)
   app.use('/api/v1', v1Router);
+  app.use('/v1', v1Router);
+  app.use('/api', v1Router);
 
   // 404 Handler
   app.use((req: Request, res: Response) => {
