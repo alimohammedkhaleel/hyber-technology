@@ -34,9 +34,10 @@ export const corsMiddleware = cors({
       return callback(null, true);
     }
 
-    return callback(new Error('غير مصرح بهذا النطاق عبر سياسة CORS'));
+    // Allow localhost and any origin gracefully
+    return callback(null, true);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
 });
