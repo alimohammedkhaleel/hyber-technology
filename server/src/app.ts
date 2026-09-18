@@ -27,7 +27,7 @@ const createApp = (): Express => {
   });
 
   // Base index route
-  app.get('/', (_req: Request, res: Response) => {
+  const handleRoot = (_req: Request, res: Response) => {
     return sendSuccess(res, {
       name: BRANDING.nameAr,
       englishName: BRANDING.nameEn,
@@ -35,7 +35,11 @@ const createApp = (): Express => {
       status: 'OPERATIONAL',
       apiDocs: '/api/v1/health',
     });
-  });
+  };
+
+  app.get('/', handleRoot);
+  app.get('/api', handleRoot);
+  app.get('/api/', handleRoot);
 
   // Versioned API v1 Router (supports both direct and rewritten paths)
   app.use('/api/v1', v1Router);
