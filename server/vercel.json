@@ -1,21 +1,21 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/api/v1/health",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "/api"
-    },
-    {
-      "source": "/",
-      "destination": "/api"
-    },
-    {
-      "source": "/((?!api).*)",
-      "destination": "/api"
     }
   ]
 }
+
 
 
 
