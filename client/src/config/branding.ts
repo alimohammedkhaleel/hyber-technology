@@ -23,6 +23,8 @@ export const BRANDING = {
   supportPhone: '01017719898',
   address: 'السويس - السلام 1، موجود مباشرة أمام أسواق رمضان، شارع المعهد الهندسي، وخلف صيدلية محمد علي',
   city: 'السويس',
+  mapsUrl: 'https://maps.app.goo.gl/oFn1Vj86FxHmGY726',
+  googleMapsUrl: 'https://maps.app.goo.gl/oFn1Vj86FxHmGY726',
   coverageAr: 'شحن وتوصيل فوري لجميع محافظات جمهورية مصر العربية',
   version: '1.0.0',
   copyright: '© 2026 متجر هايبر تكنولوجي (Hyper Technology Store). جميع الحقوق محفوظة.',

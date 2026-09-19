@@ -93,7 +93,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </div>
                 <div>
                   <strong>موقع المعرض:</strong>
-                  <p>{BRANDING.address}</p>
+                  <a
+                    href={BRANDING.googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="location-footer-link"
+                    title="فتح الموقع على خرائط جوجل"
+                  >
+                    {BRANDING.address}
+                  </a>
                 </div>
               </li>
 

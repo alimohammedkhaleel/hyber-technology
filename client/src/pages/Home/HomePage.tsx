@@ -494,7 +494,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </a>
 
                 <a
-                  href="https://maps.google.com/?q=Suez+Al-Salam+1"
+                  href={BRANDING.googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-secondary location-map-btn"
