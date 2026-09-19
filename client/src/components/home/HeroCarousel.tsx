@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ChevronLeft, ArrowLeft, ShieldCheck, Sparkles } from 'lucide-react';
+import { ChevronRight, ChevronLeft, ArrowLeft } from 'lucide-react';
 import { CarouselSlide } from '../../types';
 import './HeroCarousel.css';
 
@@ -75,16 +75,6 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ slides, onNavigate }
 
             {/* Slide Content */}
             <div className="carousel-content-box">
-              <motion.div
-                className="carousel-badge"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.4 }}
-              >
-                <Sparkles size={14} className="gold-accent-icon" />
-                <span>عروض وأجهزة هايبر تكنولوجي</span>
-              </motion.div>
-
               <motion.h2
                 className="carousel-title"
                 initial={{ opacity: 0, y: 20 }}
