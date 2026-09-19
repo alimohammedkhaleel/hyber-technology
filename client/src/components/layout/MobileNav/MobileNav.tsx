@@ -12,7 +12,7 @@ interface MobileNavProps {
 
 export const MobileNav: React.FC<MobileNavProps> = ({ currentPath, onNavigate, onOpenCart }) => {
   const { isAuthenticated } = useAuth();
-  const { itemCount } = useCart();
+  const { itemCount, openDrawer } = useCart();
 
   return (
     <nav className="mobile-nav-bar" aria-label="التنقل الرئيسي للجوال">
@@ -41,7 +41,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ currentPath, onNavigate, o
           if (onOpenCart) {
             onOpenCart();
           } else {
-            onNavigate('/cart');
+            openDrawer();
           }
         }}
       >
