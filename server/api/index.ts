@@ -2,13 +2,16 @@ import createApp from '../src/app';
 
 const app = createApp();
 
-// Attach default property to function for ES Module interop
-(app as any).default = app;
+function handler(req: any, res: any) {
+  return app(req, res);
+}
 
-// Direct CommonJS export for @vercel/node serverless invocation
-module.exports = app;
+// Attach default and app references for maximum loader compatibility
+(handler as any).default = handler;
+(handler as any).app = app;
 
-// ES module export
-export default app;
+module.exports = handler;
+export default handler;
+
 
 
