@@ -20,4 +20,4 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-Sitemap: https://hypertechnology.store/sitemap.xml
+Sitemap: https://hyber-technology-flax.vercel.app/sitemap.xml
