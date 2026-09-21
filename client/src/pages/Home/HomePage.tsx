@@ -42,19 +42,29 @@ interface HomePageProps {
   onNavigate: (path: string) => void;
 }
 
+// Fast session cache helper to eliminate network delay on internal navigation
+const getSessionCache = () => {
+  try {
+    const raw = sessionStorage.getItem('hts_catalog_cache');
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return null;
+};
+
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const { addToCart } = useCart();
+  const cached = getSessionCache();
 
-  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
-  const [categories, setCategories] = useState<ProductCategory[]>(INITIAL_CATEGORIES);
-  const [brands, setBrands] = useState<Brand[]>(INITIAL_BRANDS);
-  const [slides, setSlides] = useState<CarouselSlide[]>(INITIAL_SLIDES);
-  const [exchangeRate, setExchangeRate] = useState<ExchangeRate | null>(null);
+  const [products, setProducts] = useState<Product[]>(cached?.products || []);
+  const [categories, setCategories] = useState<ProductCategory[]>(cached?.categories || []);
+  const [brands, setBrands] = useState<Brand[]>(cached?.brands || []);
+  const [slides, setSlides] = useState<CarouselSlide[]>(cached?.slides || []);
+  const [exchangeRate, setExchangeRate] = useState<ExchangeRate | null>(cached?.exchangeRate || null);
 
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(!cached?.products || cached.products.length === 0);
   const [actionSuccessId, setActionSuccessId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -72,67 +82,62 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         if (!isMounted) return;
 
         if (productsData && productsData.length > 0) {
-          setProducts((prev) => {
-            if (
-              prev.length === productsData.length &&
-              prev.every((p, i) => {
-                const next = productsData[i];
-                if (!next || p.id !== next.id) return false;
-                const pPrice = p.pricing?.sellingPriceEgp ?? p.manual_egp_price ?? 0;
-                const nPrice = next.pricing?.sellingPriceEgp ?? next.manual_egp_price ?? 0;
-                return (
-                  pPrice === nPrice &&
-                  p.stock_quantity === next.stock_quantity &&
-                  p.is_available === next.is_available &&
-                  p.image_url === next.image_url
-                );
-              })
-            ) {
-              return prev;
-            }
-            return productsData;
-          });
+          setProducts(productsData);
+        } else if (!cached?.products || cached.products.length === 0) {
+          setProducts(INITIAL_PRODUCTS);
         }
+
         if (categoriesData && categoriesData.length > 0) {
-          setCategories((prev) => {
-            if (
-              prev.length === categoriesData.length &&
-              prev.every((c, i) => c.id === categoriesData[i]?.id && c.product_count === categoriesData[i]?.product_count)
-            ) {
-              return prev;
-            }
-            return categoriesData;
-          });
+          setCategories(categoriesData);
+        } else if (!cached?.categories || cached.categories.length === 0) {
+          setCategories(INITIAL_CATEGORIES);
         }
+
         if (brandsData && brandsData.length > 0) {
-          setBrands((prev) => {
-            if (
-              prev.length === brandsData.length &&
-              prev.every((b, i) => b.id === brandsData[i]?.id)
-            ) {
-              return prev;
-            }
-            return brandsData;
-          });
+          setBrands(brandsData);
+        } else if (!cached?.brands || cached.brands.length === 0) {
+          setBrands(INITIAL_BRANDS);
         }
+
         if (slidesData && slidesData.length > 0) {
-          setSlides((prev) => {
-            if (
-              prev.length === slidesData.length &&
-              prev.every((s, i) => s.id === slidesData[i]?.id && s.image_url === slidesData[i]?.image_url && s.title_ar === slidesData[i]?.title_ar)
-            ) {
-              return prev;
-            }
-            return slidesData;
-          });
+          setSlides(slidesData);
+        } else if (!cached?.slides || cached.slides.length === 0) {
+          setSlides(INITIAL_SLIDES);
         }
+
         if (rateData?.metadata) {
           setExchangeRate(rateData.metadata);
         } else if (rateData?.rate) {
           setExchangeRate({ rate: rateData.rate } as any);
         }
+
+        // Cache the authoritative database data
+        if (productsData && productsData.length > 0) {
+          try {
+            sessionStorage.setItem(
+              'hts_catalog_cache',
+              JSON.stringify({
+                products: productsData,
+                categories: categoriesData || INITIAL_CATEGORIES,
+                brands: brandsData || INITIAL_BRANDS,
+                slides: slidesData || INITIAL_SLIDES,
+                exchangeRate: rateData?.metadata || (rateData?.rate ? { rate: rateData.rate } : null),
+              })
+            );
+          } catch (e) {}
+        }
       } catch (err) {
         console.error('Failed to load home data, using fallback data:', err);
+        if (!cached?.products) {
+          setProducts(INITIAL_PRODUCTS);
+          setCategories(INITIAL_CATEGORIES);
+          setBrands(INITIAL_BRANDS);
+          setSlides(INITIAL_SLIDES);
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 

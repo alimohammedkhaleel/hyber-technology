@@ -23,7 +23,19 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ slides, onNavigate }
     return () => clearInterval(timer);
   }, [slides.length, isPaused]);
 
-  if (!slides || slides.length === 0) return null;
+  if (!slides || slides.length === 0) {
+    return (
+      <section className="hero-carousel-wrapper">
+        <div
+          className="hero-carousel-container"
+          style={{
+            minHeight: '440px',
+            background: 'radial-gradient(ellipse at center, #1a1a24 0%, #08080c 100%)',
+          }}
+        />
+      </section>
+    );
+  }
 
   const currentSlide = slides[currentIndex];
 
