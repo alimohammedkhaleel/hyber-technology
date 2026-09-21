@@ -529,10 +529,34 @@
     </script>
     <!-- Preload critical logo image for instant presentation rendering -->
     <link rel="preload" as="image" href="/logo.png" />
+
+    <!-- Instant Presentation Canvas Controller: Prevents HTML flash on initial human visit while maintaining 100% SEO visibility for search bots -->
+    <style id="initial-theme-style">
+      html.preload-presentation-bg,
+      html.preload-presentation-bg body {
+        background-color: #080809 !important;
+      }
+      html.preload-presentation-bg #initial-prerender-content {
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+    </style>
+    <script>
+      (function() {
+        try {
+          var isBot = /bot|googlebot|bingbot|crawler|spider|robot|crawling|lighthouse|headless|facebookexternalhit|whatsapp|telegram/i.test(navigator.userAgent || '');
+          var hasSeen = sessionStorage.getItem('nlp_has_seen_presentation_session') === 'true';
+          if (!isBot && !hasSeen) {
+            document.documentElement.classList.add('preload-presentation-bg');
+          }
+        } catch(e) {}
+      })();
+    </script>
   </head>
   <body style="margin: 0; background-color: #ffffff; color: #111111; font-family: 'Cairo', sans-serif;">
     <div id="root">
       <!-- Pre-rendered Static Content for Search Engines (Googlebot, Bingbot) and Seamless First Paint -->
+      <div id="initial-prerender-content">
       <header style="background: #ffffff; color: #111111; padding: 16px 20px; border-bottom: 1px solid #e5e5e5; text-align: center;">
         <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
           <div style="text-align: right;">
@@ -642,6 +666,7 @@
           <p style="margin: 0; color: #c9a227; font-weight: 600;">هاتف ومبيعات: 01017719898 | إشراف: باش مهندس أحمد السيد</p>
         </footer>
       </main>
+      </div>
     </div>
     <noscript>
       <div style="background: #ffffff; color: #111111; padding: 20px; text-align: center; font-family: 'Cairo', sans-serif; border: 1px solid #e5e5e5;">

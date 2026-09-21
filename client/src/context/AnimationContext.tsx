@@ -21,8 +21,17 @@ export const AnimationProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return sessionStorage.getItem(STORAGE_KEY) === 'true';
   });
 
+  useEffect(() => {
+    if (hasSeenPresentation && typeof document !== 'undefined') {
+      document.documentElement.classList.remove('preload-presentation-bg');
+    }
+  }, [hasSeenPresentation]);
+
   const markPresentationSeen = () => {
     sessionStorage.setItem(STORAGE_KEY, 'true');
+    if (typeof document !== 'undefined') {
+      document.documentElement.classList.remove('preload-presentation-bg');
+    }
     setHasSeenPresentation(true);
   };
 
