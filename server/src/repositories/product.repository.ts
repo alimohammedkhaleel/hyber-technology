@@ -137,7 +137,7 @@ export class ProductRepository {
       LEFT JOIN categories_new c ON c.id = p.category_id
       LEFT JOIN brands b ON b.id = p.brand_id
       ${whereClause}
-      ORDER BY p.is_featured DESC, p.created_at DESC
+      ORDER BY p.is_featured DESC, p.id ASC
       LIMIT $${idx++} OFFSET $${idx++}
     `;
     values.push(limit, offset);

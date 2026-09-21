@@ -72,16 +72,59 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         if (!isMounted) return;
 
         if (productsData && productsData.length > 0) {
-          setProducts(productsData);
+          setProducts((prev) => {
+            if (
+              prev.length === productsData.length &&
+              prev.every((p, i) => {
+                const next = productsData[i];
+                if (!next || p.id !== next.id) return false;
+                const pPrice = p.pricing?.sellingPriceEgp ?? p.manual_egp_price ?? 0;
+                const nPrice = next.pricing?.sellingPriceEgp ?? next.manual_egp_price ?? 0;
+                return (
+                  pPrice === nPrice &&
+                  p.stock_quantity === next.stock_quantity &&
+                  p.is_available === next.is_available &&
+                  p.image_url === next.image_url
+                );
+              })
+            ) {
+              return prev;
+            }
+            return productsData;
+          });
         }
         if (categoriesData && categoriesData.length > 0) {
-          setCategories(categoriesData);
+          setCategories((prev) => {
+            if (
+              prev.length === categoriesData.length &&
+              prev.every((c, i) => c.id === categoriesData[i]?.id && c.product_count === categoriesData[i]?.product_count)
+            ) {
+              return prev;
+            }
+            return categoriesData;
+          });
         }
         if (brandsData && brandsData.length > 0) {
-          setBrands(brandsData);
+          setBrands((prev) => {
+            if (
+              prev.length === brandsData.length &&
+              prev.every((b, i) => b.id === brandsData[i]?.id)
+            ) {
+              return prev;
+            }
+            return brandsData;
+          });
         }
         if (slidesData && slidesData.length > 0) {
-          setSlides(slidesData);
+          setSlides((prev) => {
+            if (
+              prev.length === slidesData.length &&
+              prev.every((s, i) => s.id === slidesData[i]?.id && s.image_url === slidesData[i]?.image_url && s.title_ar === slidesData[i]?.title_ar)
+            ) {
+              return prev;
+            }
+            return slidesData;
+          });
         }
         if (rateData?.metadata) {
           setExchangeRate(rateData.metadata);
