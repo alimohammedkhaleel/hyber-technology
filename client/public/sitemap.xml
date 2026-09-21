@@ -2,15 +2,74 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- 1. Home Page -->
   <url>
     <loc>https://hyber-technology-flax.vercel.app/</loc>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://hyber-technology-flax.vercel.app/og-image.jpg</image:loc>
-      <image:title>متجر هايبر تكنولوجي - شاشات وكاميرات مراقبة</image:title>
-      <image:caption>تحت إشراف باش مهندس أحمد السيد</image:caption>
+      <image:title>متجر هايبر تكنولوجي - شاشات وكاميرات مراقبة وأنظمة إلكترونية</image:title>
+      <image:caption>تحت إشراف باش مهندس أحمد السيد بالسويس وشحن لجميع محافظات مصر</image:caption>
     </image:image>
+  </url>
+
+  <!-- 2. Products Catalog -->
+  <url>
+    <loc>https://hyber-technology-flax.vercel.app/#/products</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&amp;fit=crop&amp;w=800&amp;q=80</image:loc>
+      <image:title>كاميرات مراقبة هيكفيجن وداهوا بدقة 4K ورؤية ليلية ملونة</image:title>
+      <image:caption>أحدث كاميرات المراقبة الأصلية بضمان معتمد</image:caption>
+    </image:image>
+  </url>
+
+  <!-- 3. Smart TVs & Screens Section -->
+  <url>
+    <loc>https://hyber-technology-flax.vercel.app/#/products?categorySlug=screens-tvs</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&amp;fit=crop&amp;w=800&amp;q=80</image:loc>
+      <image:title>شاشات سامسونج وإل جي سمارت 4K الأصلية</image:title>
+      <image:caption>شاشات تلفزيون ذكية بضمان الوكيل الرسمي</image:caption>
+    </image:image>
+  </url>
+
+  <!-- 4. Security Cameras Section -->
+  <url>
+    <loc>https://hyber-technology-flax.vercel.app/#/products?categorySlug=security-cameras</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 5. DVR & NVR Recording Systems -->
+  <url>
+    <loc>https://hyber-technology-flax.vercel.app/#/products?categorySlug=dvr-nvr-systems</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 6. Networking & Routers -->
+  <url>
+    <loc>https://hyber-technology-flax.vercel.app/#/products?categorySlug=networking-routers</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 7. Search & Discovery -->
+  <url>
+    <loc>https://hyber-technology-flax.vercel.app/#/search</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

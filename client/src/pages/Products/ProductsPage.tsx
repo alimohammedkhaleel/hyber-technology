@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { productService } from '../../services/api/productService';
 import { Product, ProductCategory, Brand } from '../../types';
+import {
+  INITIAL_PRODUCTS,
+  INITIAL_CATEGORIES,
+  INITIAL_BRANDS,
+} from '../../constants/initialCatalogData';
 import { ProductModal } from '../../components/product/ProductModal';
 import { ProductImage } from '../../components/common/ProductImage';
 import { useCart } from '../../context/CartContext';
@@ -30,16 +35,16 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
 }) => {
   const { addToCart } = useCart();
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<ProductCategory[]>([]);
-  const [brands, setBrands] = useState<Brand[]>([]);
+  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
+  const [categories, setCategories] = useState<ProductCategory[]>(INITIAL_CATEGORIES);
+  const [brands, setBrands] = useState<Brand[]>(INITIAL_BRANDS);
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'ALL');
   const [selectedBrand, setSelectedBrand] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>(initialSearch || '');
   const [sortBy, setSortBy] = useState<string>('DEFAULT');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [actionSuccessId, setActionSuccessId] = useState<string | null>(null);
 
   // Sync with URL parameters
@@ -59,25 +64,34 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
   }, []);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchData = async () => {
       try {
-        setIsLoading(true);
         const [productsData, categoriesData, brandsData] = await Promise.all([
-          productService.getProducts({}),
-          productService.getCategories(),
-          productService.getBrands(),
+          productService.getProducts({}).catch(() => null),
+          productService.getCategories().catch(() => null),
+          productService.getBrands().catch(() => null),
         ]);
-        setProducts(productsData || []);
-        setCategories(categoriesData || []);
-        setBrands(brandsData || []);
+        if (!isMounted) return;
+
+        if (productsData && productsData.length > 0) {
+          setProducts(productsData);
+        }
+        if (categoriesData && categoriesData.length > 0) {
+          setCategories(categoriesData);
+        }
+        if (brandsData && brandsData.length > 0) {
+          setBrands(brandsData);
+        }
       } catch (err) {
-        console.error('Error fetching products:', err);
-      } finally {
-        setIsLoading(false);
+        console.error('Error fetching products, using fallback catalog:', err);
       }
     };
 
     fetchData();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleAddToCart = (e: React.MouseEvent, product: Product) => {

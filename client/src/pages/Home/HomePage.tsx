@@ -3,6 +3,12 @@ import { productService } from '../../services/api/productService';
 import { exchangeRateService } from '../../services/api/exchangeRateService';
 import { carouselService } from '../../services/api/carouselService';
 import { Product, ProductCategory, Brand, ExchangeRate, CarouselSlide } from '../../types';
+import {
+  INITIAL_PRODUCTS,
+  INITIAL_CATEGORIES,
+  INITIAL_BRANDS,
+  INITIAL_SLIDES,
+} from '../../constants/initialCatalogData';
 import { HeroCarousel } from '../../components/home/HeroCarousel';
 import { ProductModal } from '../../components/product/ProductModal';
 import { ProductImage } from '../../components/common/ProductImage';
@@ -39,47 +45,58 @@ interface HomePageProps {
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const { addToCart } = useCart();
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<ProductCategory[]>([]);
-  const [brands, setBrands] = useState<Brand[]>([]);
-  const [slides, setSlides] = useState<CarouselSlide[]>([]);
+  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
+  const [categories, setCategories] = useState<ProductCategory[]>(INITIAL_CATEGORIES);
+  const [brands, setBrands] = useState<Brand[]>(INITIAL_BRANDS);
+  const [slides, setSlides] = useState<CarouselSlide[]>(INITIAL_SLIDES);
   const [exchangeRate, setExchangeRate] = useState<ExchangeRate | null>(null);
 
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [actionSuccessId, setActionSuccessId] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchInitialData = async () => {
       try {
-        setIsLoading(true);
         const [productsData, categoriesData, brandsData, slidesData, rateData] = await Promise.all([
-          productService.getProducts({}),
-          productService.getCategories(),
-          productService.getBrands(),
+          productService.getProducts({}).catch(() => null),
+          productService.getCategories().catch(() => null),
+          productService.getBrands().catch(() => null),
           carouselService.getActiveSlides().catch(() => []),
           exchangeRateService.getCurrentRate().catch(() => null),
         ]);
 
-        setProducts(productsData || []);
-        setCategories(categoriesData || []);
-        setBrands(brandsData || []);
-        setSlides(slidesData || []);
+        if (!isMounted) return;
+
+        if (productsData && productsData.length > 0) {
+          setProducts(productsData);
+        }
+        if (categoriesData && categoriesData.length > 0) {
+          setCategories(categoriesData);
+        }
+        if (brandsData && brandsData.length > 0) {
+          setBrands(brandsData);
+        }
+        if (slidesData && slidesData.length > 0) {
+          setSlides(slidesData);
+        }
         if (rateData?.metadata) {
           setExchangeRate(rateData.metadata);
         } else if (rateData?.rate) {
           setExchangeRate({ rate: rateData.rate } as any);
         }
       } catch (err) {
-        console.error('Failed to load home data:', err);
-      } finally {
-        setIsLoading(false);
+        console.error('Failed to load home data, using fallback data:', err);
       }
     };
 
     fetchInitialData();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleAddToCart = (e: React.MouseEvent, product: Product) => {
