@@ -135,6 +135,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
           priceCurrency: productData.currency || 'EGP',
           price: productData.price,
           priceValidUntil: '2027-12-31',
+          validFrom: '2025-01-01',
           itemCondition: 'https://schema.org/NewCondition',
           availability: productData.isAvailable
             ? 'https://schema.org/InStock'
