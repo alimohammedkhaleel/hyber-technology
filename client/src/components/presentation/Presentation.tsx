@@ -15,7 +15,7 @@ export const Presentation: React.FC<PresentationProps> = ({ onFinish }) => {
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
-  // 1. Preload and decode the logo image before initiating presentation animation
+  // Preload and decode the logo image before initiating presentation animation
   useEffect(() => {
     let isMounted = true;
     const img = new Image();
@@ -42,13 +42,13 @@ export const Presentation: React.FC<PresentationProps> = ({ onFinish }) => {
         }
       };
       img.onerror = () => {
-        // Fallback gracefully so the animation proceeds even if image fails
+        // Fallback so presentation proceeds even if image fails
         onImageReady();
       };
     }
 
-    // Safety timer (maximum 2000ms) to ensure smooth transition regardless of network
-    const safetyTimer = setTimeout(onImageReady, 2000);
+    // Safety fallback timer so presentation is never blocked
+    const safetyTimer = setTimeout(onImageReady, 1500);
 
     return () => {
       isMounted = false;
@@ -56,7 +56,7 @@ export const Presentation: React.FC<PresentationProps> = ({ onFinish }) => {
     };
   }, []);
 
-  // 2. Start brush presentation timeline ONLY after image is confirmed loaded & decoded
+  // Start brush presentation timeline ONLY after image is confirmed loaded & decoded
   useEffect(() => {
     if (!isImageLoaded) return;
 
@@ -80,25 +80,11 @@ export const Presentation: React.FC<PresentationProps> = ({ onFinish }) => {
     };
   }, [isImageLoaded, onFinish]);
 
-  const handleSkip = () => {
-    if (timelineRef.current) {
-      timelineRef.current.kill();
-    }
-    onFinish();
-  };
-
   return (
-    <div ref={containerRef} className="presentation-container" onClick={handleSkip}>
-      {/* Subtle loader while logo image is decoding */}
-      {!isImageLoaded && (
-        <div className="presentation-preloader">
-          <div className="presentation-spinner" />
-        </div>
-      )}
-
+    <div ref={containerRef} className="presentation-container">
       {/* SVG Brush Mask Canvas */}
       <svg
-        className={`presentation-svg-canvas ${isImageLoaded ? 'ready' : 'loading'}`}
+        className="presentation-svg-canvas"
         width="100%"
         height="100%"
         viewBox="0 0 1920 1080"
@@ -149,15 +135,6 @@ export const Presentation: React.FC<PresentationProps> = ({ onFinish }) => {
           <p className="presentation-system-subtitle">{BRANDING.presentationSubtitle}</p>
         </div>
       </div>
-
-      <button
-        type="button"
-        className="presentation-skip-hint"
-        onClick={handleSkip}
-        aria-label="تخطي العرض التقديمي"
-      >
-        تخطي
-      </button>
     </div>
   );
 };
