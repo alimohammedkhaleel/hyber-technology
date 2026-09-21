@@ -45,16 +45,16 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
   const { addToCart } = useCart();
   const cached = getSessionCache();
 
-  const [products, setProducts] = useState<Product[]>(cached?.products || []);
-  const [categories, setCategories] = useState<ProductCategory[]>(cached?.categories || []);
-  const [brands, setBrands] = useState<Brand[]>(cached?.brands || []);
+  const [products, setProducts] = useState<Product[]>(cached?.products || INITIAL_PRODUCTS);
+  const [categories, setCategories] = useState<ProductCategory[]>(cached?.categories || INITIAL_CATEGORIES);
+  const [brands, setBrands] = useState<Brand[]>(cached?.brands || INITIAL_BRANDS);
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'ALL');
   const [selectedBrand, setSelectedBrand] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>(initialSearch || '');
   const [sortBy, setSortBy] = useState<string>('DEFAULT');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(!cached?.products || cached.products.length === 0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [actionSuccessId, setActionSuccessId] = useState<string | null>(null);
 
   // Sync with URL parameters
@@ -85,21 +85,50 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
         if (!isMounted) return;
 
         if (productsData && productsData.length > 0) {
-          setProducts(productsData);
-        } else if (!cached?.products || cached.products.length === 0) {
-          setProducts(INITIAL_PRODUCTS);
+          setProducts((prev) => {
+            if (
+              prev.length === productsData.length &&
+              prev.every((p, i) => {
+                const next = productsData[i];
+                if (!next || p.id !== next.id) return false;
+                const pPrice = p.pricing?.sellingPriceEgp ?? p.manual_egp_price ?? 0;
+                const nPrice = next.pricing?.sellingPriceEgp ?? next.manual_egp_price ?? 0;
+                return (
+                  pPrice === nPrice &&
+                  p.stock_quantity === next.stock_quantity &&
+                  p.is_available === next.is_available &&
+                  p.image_url === next.image_url
+                );
+              })
+            ) {
+              return prev;
+            }
+            return productsData;
+          });
         }
 
         if (categoriesData && categoriesData.length > 0) {
-          setCategories(categoriesData);
-        } else if (!cached?.categories || cached.categories.length === 0) {
-          setCategories(INITIAL_CATEGORIES);
+          setCategories((prev) => {
+            if (
+              prev.length === categoriesData.length &&
+              prev.every((c, i) => c.id === categoriesData[i]?.id && c.product_count === categoriesData[i]?.product_count)
+            ) {
+              return prev;
+            }
+            return categoriesData;
+          });
         }
 
         if (brandsData && brandsData.length > 0) {
-          setBrands(brandsData);
-        } else if (!cached?.brands || cached.brands.length === 0) {
-          setBrands(INITIAL_BRANDS);
+          setBrands((prev) => {
+            if (
+              prev.length === brandsData.length &&
+              prev.every((b, i) => b.id === brandsData[i]?.id)
+            ) {
+              return prev;
+            }
+            return brandsData;
+          });
         }
 
         // Cache the authoritative database data
@@ -119,15 +148,6 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
         }
       } catch (err) {
         console.error('Error fetching products, using fallback catalog:', err);
-        if (!cached?.products) {
-          setProducts(INITIAL_PRODUCTS);
-          setCategories(INITIAL_CATEGORIES);
-          setBrands(INITIAL_BRANDS);
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
       }
     };
 

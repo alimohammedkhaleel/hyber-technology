@@ -55,16 +55,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const { addToCart } = useCart();
   const cached = getSessionCache();
 
-  const [products, setProducts] = useState<Product[]>(cached?.products || []);
-  const [categories, setCategories] = useState<ProductCategory[]>(cached?.categories || []);
-  const [brands, setBrands] = useState<Brand[]>(cached?.brands || []);
-  const [slides, setSlides] = useState<CarouselSlide[]>(cached?.slides || []);
+  const [products, setProducts] = useState<Product[]>(cached?.products || INITIAL_PRODUCTS);
+  const [categories, setCategories] = useState<ProductCategory[]>(cached?.categories || INITIAL_CATEGORIES);
+  const [brands, setBrands] = useState<Brand[]>(cached?.brands || INITIAL_BRANDS);
+  const [slides, setSlides] = useState<CarouselSlide[]>(cached?.slides || INITIAL_SLIDES);
   const [exchangeRate, setExchangeRate] = useState<ExchangeRate | null>(cached?.exchangeRate || null);
 
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(!cached?.products || cached.products.length === 0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [actionSuccessId, setActionSuccessId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -82,27 +82,62 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         if (!isMounted) return;
 
         if (productsData && productsData.length > 0) {
-          setProducts(productsData);
-        } else if (!cached?.products || cached.products.length === 0) {
-          setProducts(INITIAL_PRODUCTS);
+          setProducts((prev) => {
+            if (
+              prev.length === productsData.length &&
+              prev.every((p, i) => {
+                const next = productsData[i];
+                if (!next || p.id !== next.id) return false;
+                const pPrice = p.pricing?.sellingPriceEgp ?? p.manual_egp_price ?? 0;
+                const nPrice = next.pricing?.sellingPriceEgp ?? next.manual_egp_price ?? 0;
+                return (
+                  pPrice === nPrice &&
+                  p.stock_quantity === next.stock_quantity &&
+                  p.is_available === next.is_available &&
+                  p.image_url === next.image_url
+                );
+              })
+            ) {
+              return prev;
+            }
+            return productsData;
+          });
         }
 
         if (categoriesData && categoriesData.length > 0) {
-          setCategories(categoriesData);
-        } else if (!cached?.categories || cached.categories.length === 0) {
-          setCategories(INITIAL_CATEGORIES);
+          setCategories((prev) => {
+            if (
+              prev.length === categoriesData.length &&
+              prev.every((c, i) => c.id === categoriesData[i]?.id && c.product_count === categoriesData[i]?.product_count)
+            ) {
+              return prev;
+            }
+            return categoriesData;
+          });
         }
 
         if (brandsData && brandsData.length > 0) {
-          setBrands(brandsData);
-        } else if (!cached?.brands || cached.brands.length === 0) {
-          setBrands(INITIAL_BRANDS);
+          setBrands((prev) => {
+            if (
+              prev.length === brandsData.length &&
+              prev.every((b, i) => b.id === brandsData[i]?.id)
+            ) {
+              return prev;
+            }
+            return brandsData;
+          });
         }
 
         if (slidesData && slidesData.length > 0) {
-          setSlides(slidesData);
-        } else if (!cached?.slides || cached.slides.length === 0) {
-          setSlides(INITIAL_SLIDES);
+          setSlides((prev) => {
+            if (
+              prev.length === slidesData.length &&
+              prev.every((s, i) => s.id === slidesData[i]?.id && s.image_url === slidesData[i]?.image_url && s.title_ar === slidesData[i]?.title_ar)
+            ) {
+              return prev;
+            }
+            return slidesData;
+          });
         }
 
         if (rateData?.metadata) {
@@ -111,7 +146,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           setExchangeRate({ rate: rateData.rate } as any);
         }
 
-        // Cache the authoritative database data
+        // Cache the authoritative database data for instant subsequent routing
         if (productsData && productsData.length > 0) {
           try {
             sessionStorage.setItem(
@@ -128,16 +163,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         }
       } catch (err) {
         console.error('Failed to load home data, using fallback data:', err);
-        if (!cached?.products) {
-          setProducts(INITIAL_PRODUCTS);
-          setCategories(INITIAL_CATEGORIES);
-          setBrands(INITIAL_BRANDS);
-          setSlides(INITIAL_SLIDES);
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
       }
     };
 

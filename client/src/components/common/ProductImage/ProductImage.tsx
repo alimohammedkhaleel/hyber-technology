@@ -74,6 +74,7 @@ export const ProductImage: React.FC<ProductImageProps> = ({
         src={imageSrc}
         alt={alt || 'منتج هايبر تكنولوجي'}
         loading={loading}
+        decoding="async"
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}
         className={`product-real-img ${isLoaded ? 'visible' : 'hidden'}`}
